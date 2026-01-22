@@ -11,23 +11,23 @@
 <body>
 
 <header class="header">
-    <h1>Pokédex</h1>
+    <div class="header-top">
+        <h1>Pokédex</h1>
 
-    <!-- Theme toggle (JS-ready) -->
-    <label class="theme-switch" aria-label="Toggle dark mode">
-        <input type="checkbox" id="theme-toggle">
-        <span class="slider"></span>
-    </label>
+        <label class="theme-switch" aria-label="Toggle dark mode">
+            <input type="checkbox" id="theme-toggle">
+            <span class="slider"></span>
+        </label>
+    </div>
 
+    <nav class="header-tabs" role="tablist" aria-label="Views">
+        <button id="tab-search" class="tab active" role="tab" aria-selected="true">Search</button>
+        <button id="tab-random" class="tab" role="tab" aria-selected="false">Random</button>
+        <button id="tab-national" class="tab" role="tab" aria-selected="false">National Pokédex</button>
+    </nav>
 </header>
 
 <main class="container">
-
-    <!-- Tabs -->
-    <nav class="tabs">
-        <button id="tab-search" class="tab active">Search</button>
-        <button id="tab-random" class="tab">Random</button>
-    </nav>
 
     <!-- Search -->
     <section id="search-section" class="panel">
@@ -36,6 +36,7 @@
                     id="search-input"
                     type="text"
                     placeholder="Name or ID (e.g. pikachu, 25)"
+                    autocomplete="off"
             >
             <button id="search-btn" class="primary">Search</button>
         </div>
@@ -43,7 +44,51 @@
 
     <!-- Random -->
     <section id="random-section" class="panel hidden">
-        <button id="random-btn" class="full-btn">Get Random Pokémon</button>
+        <button id="random-btn" class="full-btn primary">Get Random Pokémon</button>
+    </section>
+
+    <!-- National Pokédex -->
+    <section id="national-section" class="panel hidden">
+        <div class="dex-toolbar">
+            <div class="dex-toolbar-left">
+                <label class="dex-label" for="dex-page-size">Per page</label>
+                <select id="dex-page-size" class="dex-select">
+                    <option value="25" selected>25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+
+                <label class="dex-label" for="dex-filter">Filter</label>
+                <input id="dex-filter" class="dex-filter" type="text" placeholder="Filter by name or id…">
+            </div>
+
+            <div class="dex-toolbar-right">
+                <span id="dex-count" class="dex-count"></span>
+            </div>
+        </div>
+
+        <div class="dex-table-wrap">
+            <table class="dex-table" aria-label="National Pokédex">
+                <thead>
+                <tr>
+                    <th class="col-gen">Gen</th>
+                    <th class="col-id">#</th>
+                    <th class="col-art">Artwork</th>
+                    <th class="col-name">Name</th>
+                    <th class="col-types">Types</th>
+                </tr>
+                </thead>
+                <tbody id="dex-tbody">
+                <!-- rows injected -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="dex-pager" aria-label="Pagination">
+            <button id="dex-prev" class="dex-page-btn" type="button">Prev</button>
+            <span id="dex-page-info" class="dex-page-info"></span>
+            <button id="dex-next" class="dex-page-btn" type="button">Next</button>
+        </div>
     </section>
 
     <!-- Status -->
@@ -63,6 +108,6 @@
     <p>Made for revision</p>
 </footer>
 
-<script src="js/main.js" defer></script>
+<script type="module" src="js/main.js"></script>
 </body>
 </html>
