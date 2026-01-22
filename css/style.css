@@ -1,0 +1,376 @@
+/* ======================================================
+   THEME VARIABLES
+   ====================================================== */
+:root {
+    --bg: #f6f7fb;
+    --surface: #ffffff;
+    --text: #222;
+    --muted: #666;
+
+    --accent: #e3350d;
+    --accent-soft: #fbd6cf;
+
+    --border: #ddd;
+
+    --radius: 14px;
+    --radius-sm: 10px;
+
+    --shadow-sm: 0 4px 10px rgba(0,0,0,0.08);
+    --shadow-md: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+html[data-theme="dark"] {
+    --bg: #0f1115;
+    --surface: #1a1d24;
+    --text: #f2f2f2;
+    --muted: #aaa;
+
+    --accent: #ff4d4d;
+    --accent-soft: #402020;
+
+    --border: #2a2e38;
+
+    --shadow-sm: 0 4px 12px rgba(0,0,0,0.6);
+    --shadow-md: 0 10px 28px rgba(0,0,0,0.7);
+}
+
+/* ======================================================
+   RESET & BASE
+   ====================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* ======================================================
+   HEADER / FOOTER
+   ====================================================== */
+.header,
+.footer {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.footer {
+    border-top: 1px solid var(--border);
+    border-bottom: none;
+}
+
+.icon-btn {
+    position: absolute;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--text);
+}
+
+/* ======================================================
+   MAIN LAYOUT
+   ====================================================== */
+.container {
+    flex: 1;
+    max-width: 720px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 24px 16px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ======================================================
+   TABS
+   ====================================================== */
+.tabs {
+    display: flex;
+    gap: 10px;
+}
+
+.tab {
+    flex: 1;
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease, color 0.12s ease;
+}
+
+
+.tab:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.tab.active {
+    background: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
+}
+
+
+.tab.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+
+/*.tab:not(.active):hover {*/
+/*    background: color-mix(in srgb, var(--surface) 90%, var(--accent) 10%);*/
+/*}*/
+
+
+/* ======================================================
+   PANELS
+   ====================================================== */
+.hidden {
+    display: none;
+}
+
+/* ======================================================
+   INPUTS & BUTTONS
+   ====================================================== */
+.field {
+    display: flex;
+    gap: 10px;
+}
+
+input {
+    flex: 1;
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    font-size: 15px;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+button {
+    padding: 12px 18px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    font-size: 15px;
+
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+button:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.full-btn {
+    width: 100%;
+}
+
+/* ======================================================
+   PRIMARY ACTION BUTTON
+   ====================================================== */
+button.primary {
+    background: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
+}
+
+button.primary:hover {
+    background: color-mix(in srgb, var(--accent) 90%, #000 10%);
+}
+
+button.primary:active {
+    background: color-mix(in srgb, var(--accent) 85%, #000 15%);
+}
+
+
+/* ======================================================
+   THEME SWITCH (SLIDER)
+   ====================================================== */
+.theme-switch {
+    position: absolute;
+    right: 16px;
+    width: 52px;
+    height: 28px;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    inset: 0;
+    background: var(--border);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.25);
+}
+
+.slider::before {
+    content: "";
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    left: 3px;
+    top: 3px;
+    background: var(--surface);
+    border-radius: 50%;
+    transition: transform 0.2s ease, background 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+/* Checked = Dark mode */
+.theme-switch input:checked + .slider {
+    background: var(--accent);
+}
+
+.theme-switch input:checked + .slider::before {
+    transform: translateX(24px);
+}
+
+
+/* ======================================================
+   STATUS
+   ====================================================== */
+.status {
+    min-height: 24px;
+}
+
+.loading {
+    color: var(--muted);
+}
+
+.error {
+    color: var(--accent);
+}
+
+/* ======================================================
+   RESULT / CARD
+   ====================================================== */
+.result {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.card {
+    width: 280px;
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+
+    box-shadow: var(--shadow-md);
+    animation: fadeIn 0.2s ease-out;
+}
+
+.card img {
+    width: 160px;
+    height: 160px;
+}
+
+.card h2 {
+    margin-top: 12px;
+}
+
+.types {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 10px 0;
+}
+
+.type {
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+/* ======================================================
+   OVERLAY / MODAL
+   ====================================================== */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.modal {
+    background: var(--surface);
+    padding: 24px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    width: 90%;
+    max-width: 320px;
+}
+
+/* ======================================================
+   ANIMATION
+   ====================================================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ======================================================
+   RESPONSIVE
+   ====================================================== */
+@media (max-width: 480px) {
+    .field {
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <title>Pokedex</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" href="assets/Pokedex_tool_icon.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="header">
+    <h1>Pokédex</h1>
+
+    <!-- Theme toggle (JS-ready) -->
+    <label class="theme-switch" aria-label="Toggle dark mode">
+        <input type="checkbox" id="theme-toggle">
+        <span class="slider"></span>
+    </label>
+
+</header>
+
+<main class="container">
+
+    <!-- Tabs -->
+    <nav class="tabs">
+        <button id="tab-search" class="tab active">Search</button>
+        <button id="tab-random" class="tab">Random</button>
+    </nav>
+
+    <!-- Search -->
+    <section id="search-section" class="panel">
+        <div class="field">
+            <input
+                    id="search-input"
+                    type="text"
+                    placeholder="Name or ID (e.g. pikachu, 25)"
+            >
+            <button id="search-btn" class="primary">Search</button>
+        </div>
+    </section>
+
+    <!-- Random -->
+    <section id="random-section" class="panel hidden">
+        <button id="random-btn" class="full-btn">Get Random Pokémon</button>
+    </section>
+
+    <!-- Status -->
+    <section class="status">
+        <p id="loading" class="loading hidden">Loading…</p>
+        <p id="error" class="error hidden"></p>
+    </section>
+
+    <!-- Result -->
+    <section id="result" class="result">
+        <!-- Card injected here -->
+    </section>
+
+</main>
+
+<footer class="footer">
+    <p>Made for revision</p>
+</footer>
+
+<script src="js/main.js" defer></script>
+</body>
+</html>
