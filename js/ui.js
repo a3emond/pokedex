@@ -61,7 +61,7 @@ export function renderCard(p) {
         </article>
     `;
 }
-
+// helper function
 function capitalize(s) {
     return s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
 }

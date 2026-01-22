@@ -298,7 +298,6 @@ button.primary:active {
     align-items: flex-start;
 }
 
-/* Updated card layout (id top-right + stats like example) */
 .card {
     position: relative;
     width: 280px;
@@ -309,6 +308,16 @@ button.primary:active {
 
     box-shadow: var(--shadow-md);
     animation: fadeIn 0.2s ease-out;
+    cursor : pointer;
+}
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.card:active {
+    transform: translateY(1px);
+    box-shadow: none;
 }
 
 .card img {
@@ -353,7 +362,7 @@ button.primary:active {
 }
 
 .stat {
-    background: color-mix(in srgb, var(--surface) 85%, var(--bg) 15%);
+    background: color-mix(in srgb, var(--surface) 15%, var(--bg) 85%);
     border-radius: var(--radius-sm);
     padding: 10px 6px;
     text-align: center;
@@ -488,14 +497,20 @@ button.primary:active {
 
 .dex-table tbody tr:hover {
     background: color-mix(in srgb, var(--surface) 90%, var(--accent-soft) 10%);
+    cursor: pointer;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
+.dex-table tbody tr:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}
 .col-gen { width: 56px; }
 .col-id { width: 70px; }
 .col-art { width: 92px; }
 .col-name { width: 200px; }
 
-/* National Dex image sizing (kept) */
 .dex-art {
     width: 64px;
     height: 64px;

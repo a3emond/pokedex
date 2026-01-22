@@ -60,6 +60,7 @@ function pageSlice() {
     return dexState.filtered.slice(start, start + dexState.pageSize);
 }
 
+// TODO: add jump to page  <<prev ... 1 2 3 4 5 ... 25 next>>
 function setPagerUi() {
     const tp = totalPages();
     dexPrevBtn.disabled = dexState.page <= 1;
@@ -68,13 +69,14 @@ function setPagerUi() {
     dexCount.textContent = `${dexState.filtered.length} Pokémon`;
 }
 
+// TODO: attach click event on rows for details
 function renderRows(rows) {
     dexTbody.innerHTML = rows.map(p => {
         const data = dexState.cache.get(p.name);
         const id = data?.id ?? p.idFromUrl ?? "";
         const art = data?.artwork ?? "";
         const types = data?.types ?? [];
-        const gen = dexState.genMap.get(p.name) ?? "";
+        const gen = dexState.genMap.get(p.name) ?? ""; // TODO: debug -> value empty 2026-02-22 15h20
 
         return `
         <tr>
