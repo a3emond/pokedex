@@ -80,7 +80,7 @@ function renderRows(rows) {
 
         return `
         <tr>
-            <td>${gen ? `Gen ${gen}` : ""}</td>
+            <td class="dex-gen">${gen || ""}</td>
             <td>#${String(id).padStart(4, "0")}</td>
             <td>${art ? `<img class="dex-art" src="${art}">` : ""}</td>
             <td class="dex-name">${p.name}</td>
@@ -120,7 +120,40 @@ async function ensureDetails(rows, signal) {
         });
     });
 }
+async function ensureGenerations(rows, signal) {
+    const missing = rows.filter(p => !dexState.genMap.has(p.name));
+    if (!missing.length) return;
 
+    // Step 1: fetch Pokémon data to get the real species name
+    const pokemonResults = await Promise.allSettled(
+        missing.map(p =>
+            fetchJson(`${API_BASE}/pokemon/${p.name}`, signal)
+        )
+    );
+
+    // Step 2: fetch species using the species name from Pokémon
+    await Promise.allSettled(
+        pokemonResults.map(async (res, i) => {
+            if (res.status !== "fulfilled") return;
+
+            const pokemon = res.value;
+            const speciesName = pokemon.species?.name;
+            if (!speciesName) return;
+
+            const species = await fetchJson(
+                `${API_BASE}/pokemon-species/${speciesName}`,
+                signal
+            );
+
+            const genName = species.generation?.name ?? "";
+            const gen = genName
+                ? genName.replace("generation-", "").toUpperCase()
+                : "";
+
+            dexState.genMap.set(missing[i].name, gen);
+        })
+    );
+}
 async function renderPage() {
     if (dexState.abort) dexState.abort.abort();
     dexState.abort = new AbortController();
@@ -129,7 +162,12 @@ async function renderPage() {
     try {
         const rows = pageSlice();
         renderRows(rows);
-        await ensureDetails(rows, dexState.abort.signal);
+
+        await Promise.all([
+            ensureDetails(rows, dexState.abort.signal),
+            ensureGenerations(rows, dexState.abort.signal)
+        ]);
+
         renderRows(rows);
         setPagerUi();
     } catch {
@@ -183,4 +221,5 @@ export async function initNationalDex() {
         applyFilter();
         renderPage();
     });
+    console.log(dexState)
 }
