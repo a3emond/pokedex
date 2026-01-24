@@ -10,8 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up SSH
         run: |
@@ -22,7 +21,11 @@ jobs:
 
       - name: Deploy files
         run: |
-          rsync -avz --delete \
+          rsync -rz --delete \
+            --no-perms \
+            --no-owner \
+            --no-group \
+            --omit-dir-times \
             -e "ssh -p ${{ secrets.SSH_PORT }}" \
             --exclude='.git/' \
             --exclude='.github/' \
