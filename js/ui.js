@@ -1,4 +1,5 @@
 import { el } from "./dom.js";
+import { openPokemonModal } from "./modal.js";
 
 const loadingEl = el("loading");
 const errorEl = el("error");
@@ -65,3 +66,14 @@ export function renderCard(p) {
 function capitalize(s) {
     return s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
 }
+
+// modal event
+resultEl.addEventListener("click", e => {
+    const card = e.target.closest(".card");
+    if (!card) return;
+
+    const nameEl = card.querySelector(".card-name");
+    if (!nameEl) return;
+
+    openPokemonModal(nameEl.textContent.toLowerCase());
+});

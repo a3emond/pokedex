@@ -21,9 +21,10 @@
     </div>
 
     <nav class="header-tabs" role="tablist" aria-label="Views">
+        <button id="tab-national" class="tab" role="tab" aria-selected="false">National Pokédex</button>
+
         <button id="tab-search" class="tab active" role="tab" aria-selected="true">Search</button>
         <button id="tab-random" class="tab" role="tab" aria-selected="false">Random</button>
-        <button id="tab-national" class="tab" role="tab" aria-selected="false">National Pokédex</button>
     </nav>
 </header>
 
@@ -49,8 +50,13 @@
 
     <!-- National Pokédex -->
     <section id="national-section" class="panel hidden">
+
+        <!-- TOOLBAR -->
         <div class="dex-toolbar">
+
+            <!-- PRIMARY CONTROLS -->
             <div class="dex-toolbar-left">
+                <!-- Page size -->
                 <label class="dex-label" for="dex-page-size">Per page</label>
                 <select id="dex-page-size" class="dex-select">
                     <option value="25" selected>25</option>
@@ -58,15 +64,81 @@
                     <option value="100">100</option>
                 </select>
 
+                <!-- Text filter -->
                 <label class="dex-label" for="dex-filter">Filter</label>
-                <input id="dex-filter" class="dex-filter" type="text" placeholder="Filter by name or id…">
+                <input
+                        id="dex-filter"
+                        class="dex-filter"
+                        type="text"
+                        placeholder="Filter by name or id…"
+                >
             </div>
 
+            <!-- META -->
             <div class="dex-toolbar-right">
                 <span id="dex-count" class="dex-count"></span>
             </div>
+
+            <!-- FILTER TOGGLE -->
+            <button
+                    class="dex-filters-toggle"
+                    type="button"
+                    aria-expanded="false"
+            >
+                Filters
+            </button>
         </div>
 
+        <!-- COLLAPSIBLE FILTERS -->
+        <div class="dex-filters-extra hidden">
+
+            <!-- ID RANGE -->
+            <div class="dex-filter-row">
+                <label class="dex-label">#</label>
+                <input id="dex-min-id" class="dex-filter" type="number" min="1" placeholder="Min">
+                <input id="dex-max-id" class="dex-filter" type="number" min="1" placeholder="Max">
+            </div>
+
+            <!-- GENERATION -->
+            <div class="dex-filter-row">
+                <label class="dex-label" for="dex-gen">Gen</label>
+                <select id="dex-gen" class="dex-select">
+                    <option value="">All</option>
+                    <option value="I">I</option>
+                    <option value="II">II</option>
+                    <option value="III">III</option>
+                    <option value="IV">IV</option>
+                    <option value="V">V</option>
+                    <option value="VI">VI</option>
+                    <option value="VII">VII</option>
+                    <option value="VIII">VIII</option>
+                    <option value="IX">IX</option>
+                </select>
+            </div>
+
+            <!-- TYPE FILTER -->
+            <div class="dex-types-filter">
+                <label><input type="checkbox" value="grass"><span class="type" data-type="grass">Grass</span></label>
+                <label><input type="checkbox" value="fire"><span class="type" data-type="fire">Fire</span></label>
+                <label><input type="checkbox" value="water"><span class="type" data-type="water">Water</span></label>
+                <label><input type="checkbox" value="electric"><span class="type" data-type="electric">Electric</span></label>
+                <label><input type="checkbox" value="rock"><span class="type" data-type="rock">Rock</span></label>
+                <label><input type="checkbox" value="ground"><span class="type" data-type="ground">Ground</span></label>
+                <label><input type="checkbox" value="psychic"><span class="type" data-type="psychic">Psychic</span></label>
+                <label><input type="checkbox" value="dark"><span class="type" data-type="dark">Dark</span></label>
+                <label><input type="checkbox" value="fairy"><span class="type" data-type="fairy">Fairy</span></label>
+            </div>
+
+            <!-- CLEAR -->
+            <button id="dex-clear-filters" class="dex-page-btn" type="button">
+                Clear filters
+            </button>
+        </div>
+
+
+
+
+        <!-- TABLE -->
         <div class="dex-table-wrap">
             <table class="dex-table" aria-label="National Pokédex">
                 <thead>
@@ -84,12 +156,19 @@
             </table>
         </div>
 
+        <!-- PAGER WITH ANCHORS -->
         <div class="dex-pager" aria-label="Pagination">
             <button id="dex-prev" class="dex-page-btn" type="button">Prev</button>
-            <span id="dex-page-info" class="dex-page-info"></span>
+
+            <div id="dex-page-links" class="dex-page-links">
+                <!-- page anchors injected -->
+            </div>
+
             <button id="dex-next" class="dex-page-btn" type="button">Next</button>
         </div>
+
     </section>
+
 
     <!-- Status -->
     <section class="status">
@@ -105,8 +184,18 @@
 </main>
 
 <footer class="footer">
-    <p>Made for revision</p>
+    <p>Made for revision - vanilla JS/HTML/CSS</p>
 </footer>
+
+<!-- pokemon detail modal -->
+<div id="pokemon-overlay" class="overlay hidden" aria-modal="true" role="dialog">
+    <div class="pokemon-modal">
+        <button class="modal-close" aria-label="Close">×</button>
+        <div id="modal-content" class="modal-content"></div>
+    </div>
+</div>
+
+
 
 <script type="module" src="js/main.js"></script>
 </body>

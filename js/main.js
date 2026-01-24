@@ -15,5 +15,6 @@ initRandom();
 el("tab-national")?.addEventListener("click", initNationalDex);
 
 // Default state
-activateTab("tab-search");
+initNationalDex();
+activateTab("tab-national");
 applyTheme(false);

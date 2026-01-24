@@ -2,6 +2,7 @@
    THEME VARIABLES
    ====================================================== */
 :root {
+    --value: 0; /* used only for stat progress bar */
     --bg: #f6f7fb;
     --surface: #ffffff;
     --text: #222;
@@ -423,6 +424,7 @@ button.primary:active {
 /* ======================================================
    NATIONAL DEX
    ====================================================== */
+
 .dex-toolbar {
     display: flex;
     align-items: center;
@@ -440,6 +442,12 @@ button.primary:active {
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
+}
+
+.dex-toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .dex-label {
@@ -464,7 +472,112 @@ button.primary:active {
 .dex-count {
     font-size: 13px;
     color: var(--muted);
+    white-space: nowrap;
 }
+
+/* ======================================================
+   FILTER TOGGLE + COLLAPSIBLE AREA
+   ====================================================== */
+
+.dex-filters-toggle {
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-weight: 600;
+    box-shadow: none;
+    padding: 8px 10px;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+}
+
+.dex-filters-toggle:hover {
+    background: color-mix(in srgb, var(--accent-soft) 35%, var(--surface) 65%);
+}
+
+.dex-filters-extra {
+    margin-top: 10px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px;
+
+    box-shadow: var(--shadow-sm);
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dex-filters-extra.hidden {
+    display: none;
+}
+
+/* Rows */
+.dex-filter-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* Make min/max fields compact */
+.dex-filters-extra #dex-min-id,
+.dex-filters-extra #dex-max-id {
+    width: 120px;
+    min-width: 0;
+}
+
+/* ======================================================
+   TYPE FILTER – PILL UX
+   ====================================================== */
+
+.dex-types-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+/* Hide checkbox visuals but keep semantics */
+.dex-types-filter input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Pills */
+.dex-types-filter .type {
+    cursor: pointer;
+    user-select: none;
+
+    opacity: 0.5;
+    transform: scale(0.97);
+
+    transition:
+            opacity 0.15s ease,
+            transform 0.15s ease,
+            box-shadow 0.15s ease,
+            filter 0.15s ease;
+}
+
+/* Selected state */
+.dex-types-filter .type.active {
+    opacity: 1;
+    transform: scale(1);
+    filter: saturate(1.05);
+    box-shadow:
+            0 0 0 2px var(--surface),
+            0 0 0 4px var(--type-color);
+}
+
+/* Hover */
+.dex-types-filter .type:hover {
+    opacity: 0.85;
+}
+
+/* ======================================================
+   TABLE
+   ====================================================== */
 
 .dex-table-wrap {
     background: var(--surface);
@@ -495,22 +608,19 @@ button.primary:active {
     vertical-align: middle;
 }
 
+/* Row hover / press (keep effects subtle to avoid "jumping" layout) */
 .dex-table tbody tr:hover {
     background: color-mix(in srgb, var(--surface) 90%, var(--accent-soft) 10%);
     cursor: pointer;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
 }
 
-.dex-table tbody tr:active {
-    transform: translateY(1px);
-    box-shadow: none;
-}
+/* Column sizing */
 .col-gen { width: 56px; }
 .col-id { width: 70px; }
 .col-art { width: 92px; }
 .col-name { width: 200px; }
 
+/* Artwork images */
 .dex-art {
     width: 64px;
     height: 64px;
@@ -518,6 +628,7 @@ button.primary:active {
     display: block;
 }
 
+/* Text cells */
 .dex-name {
     font-weight: 600;
     text-transform: capitalize;
@@ -534,6 +645,10 @@ button.primary:active {
     flex-wrap: wrap;
 }
 
+/* ======================================================
+   PAGER
+   ====================================================== */
+
 .dex-pager {
     display: flex;
     align-items: center;
@@ -546,6 +661,24 @@ button.primary:active {
     box-shadow: var(--shadow-sm);
 }
 
+.dex-page-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.pager-ellipsis {
+    color: var(--muted);
+    padding: 0 4px;
+}
+
+.dex-page-btn.active {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
 .dex-page-info {
     font-size: 14px;
     color: var(--muted);
@@ -553,26 +686,199 @@ button.primary:active {
 }
 
 /* ======================================================
+   RESPONSIVE
+   ====================================================== */
+
+@media (max-width: 480px) {
+    .dex-filter {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .dex-filters-extra {
+        padding: 10px;
+    }
+
+    /* Keep toolbar tidy */
+    .dex-toolbar {
+        flex-wrap: wrap;
+        align-items: flex-start;
+    }
+
+    .dex-toolbar-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    /* Existing behavior you had */
+    .col-gen { display: none; }
+    .dex-table tbody td:nth-child(1) { display: none; }
+}
+
+
+/* ======================================================
    OVERLAY / MODAL
    ====================================================== */
+.overlay.hidden {
+    display: none;
+}
+
 .overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.9);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 100;
+    z-index: 1000;
 }
 
-.modal {
+.pokemon-modal {
     background: var(--surface);
+    color: var(--text);
     padding: 24px;
     border-radius: var(--radius);
     box-shadow: var(--shadow-md);
+
+
     width: 90%;
-    max-width: 320px;
+    max-width: 360px;
+    max-height: 85vh;
+    overflow-y: auto;
+
+    position: relative;
+    animation: fadeIn 0.2s ease-out;
 }
+
+.modal-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+
+    background: none;
+    border: none;
+    font-size: 22px;
+    line-height: 1;
+    color: var(--muted);
+    cursor: pointer;
+}
+
+.modal-close:hover {
+    color: var(--accent);
+}
+
+.modal-content img {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 8px;
+}
+
+.modal-content h2 {
+    text-align: center;
+    margin: 8px 0 6px;
+    text-transform: capitalize;
+}
+
+.modal-content h3 {
+    margin: 14px 0 6px;
+    font-size: 14px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.dex-flavor {
+    font-size: 14px;
+    color: var(--muted);
+    margin: 10px 0 14px;
+    line-height: 1.4;
+}
+
+.evolution {
+    margin-top: 8px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.evo-item {
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+/* ======================================================
+   MODAL SCROLLBAR
+   ====================================================== */
+
+/* Firefox */
+.pokemon-modal {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--muted) 45%, transparent) transparent;
+}
+
+/* Chromium / Safari */
+.pokemon-modal::-webkit-scrollbar {
+    width: 8px;
+}
+
+.pokemon-modal::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.pokemon-modal::-webkit-scrollbar-thumb {
+    background: color-mix(
+            in srgb,
+            var(--muted) 40%,
+            transparent
+    );
+    border-radius: 999px;
+    border: 2px solid transparent; /* creates inner padding */
+    background-clip: padding-box;
+}
+
+.pokemon-modal::-webkit-scrollbar-thumb:hover {
+    background: color-mix(
+            in srgb,
+            var(--accent) 55%,
+            transparent
+    );
+}
+
+
+/* ======================================================
+   STAT BARS
+   ====================================================== */
+.stat-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.stat-bar-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.stat-track {
+    height: 8px;
+    background: color-mix(in srgb, var(--surface) 20%, var(--bg) 80%);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.stat-fill {
+    height: 100%;
+    width: calc(var(--value) * 1%);
+    background: var(--accent);
+    border-radius: 999px;
+    transition: width 0.3s ease;
+}
+
 
 /* ======================================================
    ANIMATION
