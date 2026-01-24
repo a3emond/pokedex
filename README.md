@@ -29,6 +29,59 @@ This document focuses strictly on those two areas.
 * DOM validation at startup to fail fast
 
 ---
+## Screenshots
+
+The following screenshots illustrate the main views of the application.
+Each view is shown in both light and dark themes to demonstrate the
+theme system and layout consistency.
+
+### National Pokédex
+
+Light theme:
+
+![National Pokédex – Light](docs/screenshots/national-dex-light.png)
+
+Dark theme:
+
+![National Pokédex – Dark](docs/screenshots/national-dex-dark.png)
+
+---
+
+### Search View
+
+Light theme:
+
+![Search – Light](docs/screenshots/search-light.png)
+
+Dark theme:
+
+![Search – Dark](docs/screenshots/search-dark.png)
+
+---
+
+### Random Pokémon View
+
+Light theme:
+
+![Random – Light](docs/screenshots/random-light.png)
+
+Dark theme:
+
+![Random – Dark](docs/screenshots/random-dark.png)
+
+---
+
+### Pokémon Detail Modal
+
+Light theme:
+
+![Detail Modal – Light](docs/screenshots/detail-light.png)
+
+Dark theme:
+
+![Detail Modal – Dark](docs/screenshots/detail-dark.png)
+
+---
 
 ## National Dex Module
 
@@ -246,3 +299,117 @@ Deliberately excluded:
 * Optimistic rendering
 
 These omissions are intentional and align with the educational and validation goals of the project.
+
+## CSS Architecture (Vanilla, Theme-Driven)
+
+This project intentionally uses **plain CSS without preprocessors or frameworks**. The styling layer is designed to be predictable, debuggable, and easy to reason about in an academic or interview context.
+
+### Design Tokens via CSS Variables
+
+All theming is centralized using CSS custom properties defined on `:root` and overridden via the `html[data-theme="dark"]` attribute.
+
+This provides:
+
+* Zero-JS theming logic (only a DOM attribute toggle)
+* No duplicated color definitions
+* Instant theme switching without reflow-heavy class rewrites
+
+Variables cover:
+
+* Background / surface colors
+* Text and muted text
+* Accent and accent-soft colors
+* Borders, radii, and shadows
+
+The CSS variable `--value` is reserved exclusively for stat bar rendering and is intentionally scoped for that single responsibility.
+
+### Component-Oriented Styling
+
+Although no CSS framework is used, styles are organized by **visual responsibility**:
+
+* Layout (header, footer, container)
+* Controls (inputs, buttons, switches)
+* Reusable primitives (cards, pills, tables)
+* Feature-specific blocks (National Dex, modal, pager)
+
+Each section is clearly delimited using comment banners to keep the file readable despite being a single stylesheet.
+
+### Pokémon Type System
+
+Pokémon type colors are implemented using data attributes and CSS variables:
+
+```
+.type[data-type="fire"] { --type-color: #EE8130; }
+```
+
+This avoids:
+
+* Hardcoded class-per-type styling
+* Inline styles
+* JavaScript-driven color logic
+
+The same `.type` primitive is reused across cards, tables, filters, and the modal.
+
+### Progressive Enhancement
+
+CSS features such as `color-mix`, `tabular-nums`, and custom scrollbars are used where supported, but the UI remains functional without them.
+
+No critical behavior depends on advanced CSS features.
+
+## Single-Page Application Behavior
+
+The application behaves as a **lightweight SPA** without routing libraries or virtual DOM abstractions.
+
+### View Switching
+
+The three main views (Search, Random, National Pokédex) are always present in the DOM.
+
+Navigation works by:
+
+* Toggling a `.hidden` class on sections
+* Updating tab active states and ARIA attributes
+
+This approach:
+
+* Avoids re-creating DOM nodes
+* Preserves local UI state
+* Keeps logic simple and explicit
+
+### Modal as an Overlay Layer
+
+The Pokémon detail view is implemented as a fixed overlay rather than a route change.
+
+Key behaviors:
+
+* Blocks background interaction
+* Closes on backdrop click or Escape key
+* Uses its own scroll context with custom scrollbar styling
+
+No history manipulation is performed; the modal is a pure UI layer.
+
+### No Global State Manager
+
+State is localized per module:
+
+* National Dex manages its own filtering, pagination, and caches
+* Search and Random views are independent
+* The modal owns its own fetch lifecycle
+
+This avoids unnecessary coupling while keeping data flow easy to trace.
+
+## Intentional Simplicity
+
+The structure of this project is intentionally conservative:
+
+* No build step
+* No CSS framework
+* No state library
+* No router
+
+This is a deliberate choice to:
+
+* Emphasize core JavaScript and DOM skills
+* Keep logic transparent for evaluation
+* Reduce cognitive overhead when reading the code
+
+Every abstraction present in the codebase exists to solve a concrete problem and can be justified line by line.
